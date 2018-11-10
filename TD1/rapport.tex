@@ -1,0 +1,385 @@
+\documentclass{article}
+
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{aeguill}
+    % \usepackage[francais]{babel}
+    \usepackage[a4paper]{geometry}
+    \usepackage{array}
+    \usepackage{amsfonts}
+    \usepackage{amsmath} 
+    \usepackage{amssymb}
+    \usepackage{amsthm}
+    \usepackage{xspace}
+    \usepackage{dsfont}
+    \usepackage{collcell}
+    \usepackage{datatool}
+    \usepackage{enumitem}
+    \usepackage{xstring}
+    \usepackage{booktabs}
+    \usepackage{environ}
+    \usepackage{bbm}
+    \usepackage{hyperref}
+    \usepackage{graphicx}
+    \usepackage{caption}
+    \usepackage{stmaryrd}
+    \usepackage[dvipsnames]{xcolor}
+    \usepackage{tikz}
+    \usetikzlibrary{trees}
+    \usepackage{ulem}
+    \usepackage{cancel}
+    \usepackage{pgfplots}
+    % \usepackage{minted}
+    % \usemintedstyle{monokai}
+    \usepackage{multicol}
+    
+    \pgfplotsset{compat=newest}
+    \usetikzlibrary{automata} % LATEX and plain TEX
+    \usetikzlibrary[automata] % ConTEXt
+    \usetikzlibrary{arrows}
+    \usetikzlibrary{automata,arrows,positioning,calc}
+    \xdefinecolor{vertf}{named}{OliveGreen}
+    \xdefinecolor{rougef}{named}{BrickRed}
+    \xdefinecolor{bleuf}{named}{BlueViolet}
+    \newcommand{\Var}{vecteur aléatoire réel\xspace}
+    \newcommand{\var}{variable aléatoire réelle\xspace}
+    \newcommand{\ssi}{si et seulement si\xspace}
+    \newcommand{\cad}{c'est-à-dire\xspace}
+    \newcommand{\fdr}{fonction de répartition \xspace}
+    \newcommand{\pp}{\mathbb P}
+    \newcommand{\un}{\mathbbm{1}}
+    \newcommand{\esp}{\mathbb E}
+    \newcommand{\vari}{\mathbb V}
+    \newcommand{\cov}{\text{Cov}} 
+    \newcommand{\gras}{\textbf}
+    \newcommand{\itemb}{\item[$\bullet$]}
+    \newcommand{\rouge}{\textcolor{red}}
+    \newcommand{\bleu}{\textcolor{blue}}
+    \newcommand{\rougef}{\textcolor{rougef}}
+    \newcommand{\vertf}{\textcolor{vertf}}
+    \newcommand{\bleuf}{\textcolor{bleuf}}
+    \newcommand{\limn}{\underset{n\rightarrow +\infty}{\lim}}
+    \newcommand{\flechn}{\underset{n\rightarrow +\infty}{\longrightarrow}}
+    \newcommand{\RR}{\mathbb R}
+    \newcommand{\Q}{\mathbb Q}
+    \newcommand{\N}{\mathbb N}
+    \newcommand{\Z}{\mathbb Z}
+    \newcommand{\R}{\mathbb R}
+    \newcommand{\D}{\mathbb D}
+    \newcommand{\C}{\mathbb C}
+    \newcommand{\Rn}{\mathbb R^n}
+    \newcommand{\Rp}{\mathbb R^p}
+    \newcommand{\Rq}{\mathbb R^q}
+    \newcommand{\brn}{\mathcal B(\mathbb R^n)}
+    \newcommand{\brp}{\mathcal B(\mathbb R^p)}
+    \newcommand{\brq}{\mathcal B(\mathbb R^q)}
+    \newcommand{\br}{\mathcal B(\mathbb R)}
+    \newcommand{\brbarre}{\mathcal B(\overline{\mathbb R}}
+    \newcommand{\pps}{P-presque-sûrement\xspace}
+    \newcommand{\mespos}{\mathcal M^+(\mathcal B(\mathbb R^n),\mathcal B(\overline{\mathbb R}))}
+    \newcommand{\cvps}{\xrightarrow[n\rightarrow\infty]{p.s.}}
+    \newcommand{\cvld}{\xrightarrow[n\rightarrow\infty]{L^2}}
+    \newcommand{\cvlp}{\xrightarrow[n\rightarrow\infty]{L^p}}
+    \newcommand{\cvp}{\xrightarrow[n\rightarrow\infty]{\mathbb P}}
+    \newcommand{\cvloi}{\xrightarrow[n\rightarrow\infty]{\mathcal L}}
+    \newcommand{\definition}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Définition]}
+    \newcommand{\propriete}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Propriété]}
+    \newcommand{\proprietee}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Propriété]}
+    \newcommand{\theoreme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Théorème]}
+    \newcommand{\lemme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Lemme]}
+    \newcommand{\proposition}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Proposition]}
+    \newcommand{\fin}{\end{tcolorbox}\vspace{0.5cm}}
+    \newcommand{\preuve}{\noindent\uline{Preuve :}\xspace}
+    \newcommand{\remarque}{\noindent\uline{Remarque :}\xspace}
+    \newcommand{\exemple}{\noindent\uline{Exemple :}\xspace}
+    \newcommand{\rappel}{\noindent\uline{Rappel :}\xspace}
+    \newcommand{\notation}{\noindent\uline{Notation :}\xspace}
+    
+    
+    % transposition de tableaux
+    
+    
+    \usepackage{booktabs,array}
+    \def\Midrule{\midrule[\heavyrulewidth]}
+    \newcount\rowc
+    
+    \makeatletter
+    \def\ttabular{%
+    \hbox\bgroup
+    \let\\\cr
+    \def\rulea{\ifnum\rowc=\@ne \hrule height 1.3pt \fi}
+    \def\ruleb{
+    \ifnum\rowc=1\hrule height 1.3pt \else
+    \ifnum\rowc=6\hrule height \heavyrulewidth 
+       \else \hrule height \lightrulewidth\fi\fi}
+    \valign\bgroup
+    \global\rowc\@ne
+    \rulea
+    \hbox to 10em{\strut \hfill##\hfill}%
+    \ruleb
+    &&%
+    \global\advance\rowc\@ne
+    \hbox to 10em{\strut\hfill##\hfill}%
+    \ruleb
+    \cr}
+    \def\endttabular{%
+    \crcr\egroup\egroup}
+    
+    % Couleurs
+    
+    \usepackage{tcolorbox}
+    
+    
+    
+    %équivalent tilde : \sim
+    %très petit, grand \ll et \gg
+    %Pour les formules aller sur codecogs
+    %Si "missing delimiter" mettre un point derrière le \right (car il finit la ligne cf forum) ou alors : ne pas oublier que c'est \right\}
+    %ANSI : mettre latin1`
+    %Pour environnement align : mettre & devant le = pour bien aligner 
+    %Mettre le tableofcontents avant pour avoir une table avant le document et après sinon
+    %Attention : bien lancer deux fois lors d'une modification de la table des matières
+    %Attention : il ne capte pas les environnements dans les tableaux : faire des environnements tabularx
+    
+    \hypersetup{colorlinks=true,linkcolor=black}
+    
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \lfoot{S. DO }
+    \rfoot{\thepage}
+    \cfoot{ }
+    \lhead{COMPUTATIONAL STATISTICS}
+    \chead{ }
+    \rhead{ TD1 }
+    
+    \renewcommand{\footrulewidth}{1pt}
+    
+    \newcommand{\ind}{\setlength\parindent{0.5cm}} 
+    
+\begin{document}
+    
+\thispagestyle{empty}
+
+\title{Computational statistics \\ Homework 1}
+\author{Salomé Do}
+\maketitle
+
+\section*{Exercice 2.30}
+
+Let $f, g$ be the properly normalized densities of the Accept-Reject algorithm.
+\subsection*{(a) Acception probability.} 
+We are interested in the probability $p$ of accepting a random variable in the Accept-Reject
+algorithm.  \\ 
+A random variable $X$ is accepted when $U < \frac{f(X)}{Mg(X)}$, so we have :
+\begin{align*}
+    p &= P \left (  U <  \frac{f(X)}{Mg(X)} \right )  \\
+    &= \int_x P \left (  U <  \frac{f(x)}{Mg(x)} \mid X=x \right )  P(X=x) dx \\
+    &=\int_x  \frac{f(x)}{Mg(x)} g(x) dx \\
+    &= \frac{1}{M}\int_x f(x) dx \\
+    &= \frac{1}{M}
+\end{align*}
+
+\subsection*{(b) Show $M\geq 1$.}
+$p=\frac{1}{M}$ is by definition the probability of a uniform to be on a certain 
+interval. Thus, $0 \leq p \leq 1$ and necessarily $M\geq 1$.
+
+\subsection*{(c) Average time to have k acceptations.}
+Let $N$ be the number of failed trials until the  $k$-th random variable is accepted.
+Let's compute $\mathbb{P}(N=n)$, for any $n\in \N$. \\
+First of all, having $n$ failed trials until $k$-th random variable is accepted means
+having done $l = n+k$ trials. Let's see the serie of trials as a vector, with 
+$0$ denoting a fail and $1$ an acceptation. Our vector must look like this:
+\[(\underset{l-1,\text{ with k-1 success} }{\underbrace{0, 1,0,0,   \dots , 0, 1}}, 1)\]
+Where the only fixed part is the last number, fixed to 1 (acceptation), because 
+the process stops with the $k$-th acceptation. \\
+There are ${l-1 \choose k-1}$ combinations corresponding to the first part of the vector.
+
+Thus, we naturally have, $\forall n \in \N$ : 
+
+\begin{align*}
+    \mathbb{P}(N=n) &= {l-1 \choose k-1} p^{k-1} (1-p)^{l-1-(k-1)} p \\
+                    &= {n+k-1 \choose k-1}p^{k} (1-p)^{n+k-1-(k-1)} \\
+                    &= {n+k-1 \choose k-1}p^{k} (1-p)^{n} \\
+        \text{So } N &\sim \mathcal{N}\text{eg}( k,p )
+\end{align*}
+
+
+
+We now want an estimation of the average number of failures we are going to wait
+to have $k$ acceptions. Let's compute $\mathbb{E}[N]$. 
+
+We start by letting $S_l$ be the following sum :
+\begin{align*}
+    S_l &= \sum_{n=1}^{l} n \mathbb{P}(N=n) \\
+        &= \sum_{n=1}^{l} n {n+k-1 \choose k-1}p^{k} (1-p)^{n} \\
+        &= \sum_{n=1}^{l}   \frac{n (n+k-1)!}{(k-1)! n!}   p^{k} (1-p)^{n} \\
+        &= \sum_{n=1}^{l} k  \frac{(n+k-1)!}{k! (n-1)!} p^{k} (1-p)^{n} \\
+        &= \sum_{n=1}^{l} k {n+k-1 \choose n-1} p^{k} (1-p)^{n} \\
+        &= k p^k (1-p) \sum_{n'=0}^{l-1}  {n'+k \choose n'}  (1-p)^{n'}  \ \ \ \ \ (n'\leftarrow n+1)  
+\end{align*}
+
+
+Using a variant of the binomial serie :
+$\frac{1}{(1-x)^{\beta+1}} = \sum_{k=0}^{\infty} {k+\beta\choose k} x^k$, we
+have the convergence and the limit of $S_l$ serie when $l\rightarrow \infty$ :
+
+\begin{align*}
+    S_l \underset{l \rightarrow \infty}{\longrightarrow}
+    kp^k (1-p) \frac{1}{(1- (1-p))^{k+1}}
+\end{align*}
+Thus $\mathbb{E}[N] =k \frac{(1-p)}{p} $. However, we want the average time to wait 
+for $k$ acceptation, so we want : 
+
+\begin{align*}
+    \mathbb{E}[N] + k &= \frac{k}{p} \\
+                      &= kM 
+\end{align*}
+Hence the asked result.
+
+\subsection*{(d) No need for a low M bound.}
+A tight $M$ bound descreases the average time required to find acceptations. 
+However, a $M$ close to 1 is sometimes more difficult to compute and does not give
+efficient algorithm.
+
+\subsection*{(e) Too tight bound.}
+If the bound is too tight (when $f(x)> Mg(x)$), the algorithm doesn't generate 
+$f$. \\ 
+Let's suppose we have a set $\mathcal{A}$ such as :
+\[
+\mathcal{A} = \{x : f(x)> Mg(x) \}\]
+We compute : 
+\begin{align*}
+    P \left (  X = x | U \leq \frac{f(X)}{Mg(X)} \right ) &= P(A|B) \\
+        &= \frac{P(B|A)P(A)}{P(B)}     \\ 
+        &=\frac{P(B|A)g(x)}{P(B)}
+\end{align*}
+
+Now, we want to compute $P(B|A)$:
+\begin{align*}
+    P(B|A) &= P \left (  U \leq \frac{f(X)}{Mg(X)}  |  X = x \right) \\
+        &= 1 - P \left (  U < \frac{f(X)}{Mg(X)}  |  X = x \right) \\
+        &= 1- \left [ 
+                1- \frac{f(x)}{Mg(x)}
+            \right ] 1_{\{x \notin \mathcal{A}\} } \\
+        & =  \frac{f(x)}{Mg(x)}1_{\{x \notin \mathcal{A}\} }
+            % &=\frac{ P \left (  U \leq \frac{f(X)}{Mg(X)}  ,   X \leq x \right)}
+            %        {G(x)} \\
+            % &= \frac{1}{G(x)} \int_{-\infty}^{x}  P \left
+            %  (  U \leq \frac{f(w)}{Mg(w)}  |  X \leq w \right) g(w) dw \\
+            % &= \frac{1}{G(x)} \left ( 1-
+            %     \int_{-\infty}^{x}  P \left
+            %     ( U \geq \frac{f(w)}{Mg(w)}  |  X \leq w \right) g(w) dw
+            % \right ) \\
+            % &= \frac{1}{G(x)} \left ( 1-
+            % \int_{-\infty}^{x}  1_{\{x\notin [a,b]\}}(1 -  \frac{f(w)}{Mg(w)} )g(w) dw \right )\\
+            % &=  \frac{1}{G(x)}  \left [1- \left (1- \frac{F(x)}{M} -1 + \int_a^b   \frac{f(w)}{Mg(w)} g(w) dw
+            % \right) \right] \\
+            % &=  \frac{1}{G(x)} \left[
+            %  1+ \frac{F(x) -[F(b)-F(a)]}{M}
+            % \right ]
+\end{align*}
+
+We now just want $P(B)$: as in question (a), we have:
+\begin{align*}
+    P(B) &= P \left (  U \leq  \frac{f(X)}{Mg(X)} \right )  \\
+    &= \int_x P \left (  U \leq  \frac{f(x)}{Mg(x)} \mid X=x \right )  P(X=x) dx \\
+    &=1 - \int_x P \left (  U \geq  \frac{f(x)}{Mg(x)} \mid X=x \right )  P(X=x) dx \\
+    &=1 - \int_{x \notin \mathcal{A}} P \left (  U \geq  \frac{f(x)}{Mg(x)} \mid X=x \right )  P(X=x) dx \\
+    &= \int_{x \notin \mathcal{A}} P \left (  U \leq  \frac{f(x)}{Mg(x)} \mid X=x \right )  P(X=x) dx \\
+    &= \int_{x \notin \mathcal{A}} \frac{f(x)}{M}dx \\
+    &= \frac{1}{M}\left (1-\int_{x \in \mathcal{A}} f(x)dx \right)
+\end{align*}
+$\left (1-\int_{x \in \mathcal{A}} f(x)dx \right)$ is a constant, that we will call $C_{\mathcal{A}}$
+Then, we finally have : 
+\begin{align*}
+P \left (  X = x | U \leq \frac{f(X)}{Mg(X)} \right ) &= \frac{f(x)g(x)M}{Mg(x)C_{\mathcal{A}}} \times 1_{x \notin \mathcal{A}} \\
+    &= \frac{1}{C_{\mathcal{A}}} f(x) \times 1_{x \notin \mathcal{A}}  
+\end{align*}
+
+Thus, the density generated by this algorithm is clearly not $f$. 
+
+ 
+
+\section*{Exercice 2.40}
+\subsection*{(a) Natural exponential family}
+Let $g_{\theta}(x) = \log (\exp \{x\theta - \psi(\theta) \})$, for any $x$.  \\
+Then $g_{\theta}(x) = x\theta - \psi(\theta) )$ is affine in $x$ and thus
+concave.
+
+\subsection*{(b) Logistic distribution}
+For all $x \in \R$, let :
+
+\[
+    f(x) = \frac{1}{\beta} \frac{\exp (\frac{-(x-\alpha)}{\beta})}
+    {(1+ \exp (\frac{-(x -\alpha)}{\beta}) )^2}, \beta >0 
+\]
+
+\noindent Let also : 
+\begin{align*}
+    g(x) = \log f(x) &= \underset{\text{concave}}{\underbrace{- \log \beta - \frac{(x-\alpha)}{\beta}}}
+                        - 2 \underset{\text{h(x)}}{\underbrace{\log (1+e^{\frac{-(x - \alpha)}{\beta}})}} \\
+    \frac{\partial h(x)}{\partial x} 
+                     &= \frac{- \frac{1}{\beta}e^{-\frac{(x-\alpha)}{\beta}}}
+                        {1+ e^{-\frac{(x-\alpha)}{\beta}}} \\
+                     &= -\frac{1}{\beta}\left (1-\frac{1}{1+e^{-\frac{(x-\alpha)}{\beta}}} \right ) \\
+    \frac{\partial^2 h(x)}{\partial x} 
+                     &= \frac{1}{\beta} \frac{\frac{1}{\beta}e^{-\frac{(x-\alpha)}{\beta}} }{\left (1+ e^{-\frac{(x-\alpha)}{\beta}}\right )^2} \\
+                     & \geq 0
+\end{align*}
+So $h$ is convex, then $g$ concave.
+
+\subsection*{(c) Gumbel distribution }
+The Gumbel distribution is the following : 
+\begin{align*}
+    f(x) &= \frac{k^k}{(k-1)!} \exp \{-kx -ke^{-x} \}, k \in \N*
+\end{align*}
+Let :
+\begin{align*}
+    g(x) &= \log f(x) \\
+         &= \text{constant } - k(x + e^{-x}) 
+\end{align*}
+As $k>0$, and $x + e^{-x}$ is convex, then $g$ is concave. 
+
+\subsection*{(d) Generalized inverse Gaussian distribution}
+Let $g(x) = \log f(x), \forall x \in \R^+$. 
+Then :
+\begin{align*}
+    g(x) = \underset{\text{concave, } \alpha > 0}{\underbrace{\text{constant } + \alpha \log x }}
+    \underset{\text{linear}}{\underbrace{- \beta x}} 
+    \underset{\text{concave}}{\underbrace{- \frac{\alpha}{x}}}
+\end{align*}
+
+\section*{Exercice 3.4}
+
+\subsection*{(a)}
+
+ Let  $X\sim \mathcal N(0,\sigma^2)$ be a normal distributed random variable, we then have:
+
+
+
+\begin{align*}
+\mathbb E(e^{-X^2})&=\displaystyle \int_{-\infty}^{+\infty} e^{-x^2}\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}dx\\
+&=\displaystyle  \frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{+\infty} e^{-(1+\frac{1}{2\sigma^2})x^2}dx\\
+&=\frac{1}{\sqrt{2\pi\sigma^2}}\times \sqrt{\frac{\pi}{1+\frac{1}{2\sigma^2}}} \text{ (Gaussian integral)}\\
+&=\frac{1}{\sqrt{1+2\sigma^2}}
+\end{align*}
+
+\subsection*{(b)}
+
+Let  $X\sim \mathcal N(0,\sigma^2)$ be a normal distributed random variable, we then have:
+
+
+
+\begin{align*}
+\mathbb E(e^{-X^2})&=\displaystyle \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty} e^{-x^2}e^{-\frac{(x-\mu)^2}{2\sigma^2}}dx\\
+&=\displaystyle \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{+\infty} e^{  - \frac{1+2\sigma^2}{2\sigma^2} \left[  (x - \frac{\mu}{1+2\sigma^2})^2 + \frac{\mu^2}{1+2\sigma^2}-\frac{\mu^2}{(1+2\sigma^2)^2}      \right]  }dx\\
+&= \displaystyle \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \frac{1+2\sigma^2}{2\sigma^2} \left[  \frac{\mu^2}{1+2\sigma^2}-\frac{\mu^2}{(1+2\sigma^2)^2}      \right] } \int_{-\infty}^{+\infty} e^{-\frac{1+2\sigma^2}{2\sigma^2}(x - \frac{\mu}{1+2\sigma^2})^2 }dx\\
+&= \displaystyle \frac{1}{\sqrt{2\pi\sigma^2}} e^{ - \left[  \frac{\mu^2}{2\sigma^2}-\frac{\mu^2}{2\sigma^2(1+2\sigma^2)}      \right] }\times \sqrt{\frac{\pi}{1+\frac{1}{2\sigma^2}}} \text{ (Gaussian integral)}\\
+&=\frac{1}{\sqrt{1+2\sigma^2}}e^{ \frac{\mu^2}{2\sigma^2(1+2\sigma^2)}-\frac{\mu^2}{2\sigma^2}       } \\
+&=\frac{1}{\sqrt{1+2\sigma^2}}e^{-\frac{\mu^2}{1+2\sigma^2}}
+\end{align*}
+
+
+
+
+\end{document}

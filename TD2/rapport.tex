@@ -1,0 +1,775 @@
+\documentclass{article}
+
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{aeguill}
+    % \usepackage[francais]{babel}
+    \usepackage[a4paper]{geometry}
+    \usepackage{array}
+    \usepackage{amsfonts}
+    \usepackage{amsmath} 
+    \usepackage{amssymb}
+    \usepackage{amsthm}
+    \usepackage{xspace}
+    \usepackage{dsfont}
+    \usepackage{collcell}
+    \usepackage{datatool}
+    \usepackage{enumitem}
+    \usepackage{xstring}
+    \usepackage{booktabs}
+    \usepackage{environ}
+    \usepackage{bbm}
+    \usepackage{hyperref}
+    \usepackage{graphicx}
+    \usepackage{caption}
+    \usepackage{stmaryrd}
+    % \usepackage[dvipsnames]{xcolor}
+    \usepackage{ulem}
+    \usepackage{cancel}
+    % \usepackage{pgfplots}
+    % \usepackage{minted}
+    % \usemintedstyle{monokai}
+    \usepackage{multicol}
+    \usepackage{listings}
+
+    \usepackage[x11names, rgb, html]{xcolor}
+
+    % Solarized colors
+    \definecolor{sbase03}{HTML}{002B36}
+    \definecolor{sbase02}{HTML}{073642}
+    \definecolor{sbase01}{HTML}{586E75}
+    \definecolor{sbase00}{HTML}{657B83}
+    \definecolor{sbase0}{HTML}{839496}
+    \definecolor{sbase1}{HTML}{93A1A1}
+    \definecolor{sbase2}{HTML}{EEE8D5}
+    \definecolor{sbase3}{HTML}{FDF6E3}
+    \definecolor{syellow}{HTML}{B58900}
+    \definecolor{sorange}{HTML}{CB4B16}
+    \definecolor{sred}{HTML}{DC322F}
+    \definecolor{smagenta}{HTML}{D33682}
+    \definecolor{sviolet}{HTML}{6C71C4}
+    \definecolor{sblue}{HTML}{268BD2}
+    \definecolor{scyan}{HTML}{2AA198}
+    \definecolor{sgreen}{HTML}{859900}
+
+
+\lstset{
+    % How/what to match
+    sensitive=true,
+    % Border (above and below)
+    frame=lines,
+    % Extra margin on line (align with paragraph)
+    xleftmargin=\parindent,
+    % Put extra space under caption
+    belowcaptionskip=1\baselineskip,
+    % Colors
+    backgroundcolor=\color{sbase03},
+    basicstyle=\color{sbase00}\ttfamily,
+    keywordstyle=\color{scyan},
+    commentstyle=\color{sbase1},
+    stringstyle=\color{sblue},
+    numberstyle=\color{sviolet},
+    identifierstyle=\color{sbase00},
+    %identifierstyle=
+    % Break long lines into multiple lines?
+    breaklines=true,
+    % Show a character for spaces?
+    showstringspaces=false,
+    tabsize=2
+}
+
+
+    \newcommand{\Var}{vecteur aléatoire réel\xspace}
+    \newcommand{\var}{variable aléatoire réelle\xspace}
+    \newcommand{\ssi}{si et seulement si\xspace}
+    \newcommand{\cad}{c'est-à-dire\xspace}
+    \newcommand{\fdr}{fonction de répartition \xspace}
+    \newcommand{\pp}{\mathbb P}
+    \newcommand{\un}{\mathbbm{1}}
+    \newcommand{\esp}{\mathbb E}
+    \newcommand{\vari}{\mathbb V}
+    \newcommand{\cov}{\text{Cov}} 
+    \newcommand{\gras}{\textbf}
+    \newcommand{\itemb}{\item[$\bullet$]}
+    \newcommand{\rouge}{\textcolor{red}}
+    \newcommand{\bleu}{\textcolor{blue}}
+    \newcommand{\rougef}{\textcolor{rougef}}
+    \newcommand{\vertf}{\textcolor{vertf}}
+    \newcommand{\bleuf}{\textcolor{bleuf}}
+    \newcommand{\limn}{\underset{n\rightarrow +\infty}{\lim}}
+    \newcommand{\flechn}{\underset{n\rightarrow +\infty}{\longrightarrow}}
+    \newcommand{\RR}{\mathbb R}
+    \newcommand{\Q}{\mathbb Q}
+    \newcommand{\N}{\mathbb N}
+    \newcommand{\Z}{\mathbb Z}
+    \newcommand{\R}{\mathbb R}
+    \newcommand{\D}{\mathbb D}
+    \newcommand{\C}{\mathbb C}
+    \newcommand{\Rn}{\mathbb R^n}
+    \newcommand{\Rp}{\mathbb R^p}
+    \newcommand{\Rq}{\mathbb R^q}
+    \newcommand{\brn}{\mathcal B(\mathbb R^n)}
+    \newcommand{\brp}{\mathcal B(\mathbb R^p)}
+    \newcommand{\brq}{\mathcal B(\mathbb R^q)}
+    \newcommand{\br}{\mathcal B(\mathbb R)}
+    \newcommand{\brbarre}{\mathcal B(\overline{\mathbb R}}
+    \newcommand{\pps}{P-presque-sûrement\xspace}
+    \newcommand{\mespos}{\mathcal M^+(\mathcal B(\mathbb R^n),\mathcal B(\overline{\mathbb R}))}
+    \newcommand{\cvps}{\xrightarrow[n\rightarrow\infty]{p.s.}}
+    \newcommand{\cvld}{\xrightarrow[n\rightarrow\infty]{L^2}}
+    \newcommand{\cvlp}{\xrightarrow[n\rightarrow\infty]{L^p}}
+    \newcommand{\cvp}{\xrightarrow[n\rightarrow\infty]{\mathbb P}}
+    \newcommand{\cvloi}{\xrightarrow[n\rightarrow\infty]{\mathcal L}}
+    \newcommand{\definition}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Définition]}
+    \newcommand{\propriete}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Propriété]}
+    \newcommand{\proprietee}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Propriété]}
+    \newcommand{\theoreme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Théorème]}
+    \newcommand{\lemme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Lemme]}
+    \newcommand{\proposition}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Proposition]}
+    \newcommand{\fin}{\end{tcolorbox}\vspace{0.5cm}}
+    \newcommand{\preuve}{\noindent\uline{Preuve :}\xspace}
+    \newcommand{\remarque}{\noindent\uline{Remarque :}\xspace}
+    \newcommand{\exemple}{\noindent\uline{Exemple :}\xspace}
+    \newcommand{\rappel}{\noindent\uline{Rappel :}\xspace}
+    \newcommand{\notation}{\noindent\uline{Notation :}\xspace}
+    
+    
+    % transposition de tableaux
+    
+    
+    \usepackage{booktabs,array}
+    \def\Midrule{\midrule[\heavyrulewidth]}
+    \newcount\rowc
+    
+    \makeatletter
+    \def\ttabular{% 
+    \hbox\bgroup
+    \let\\\cr
+    \def\rulea{\ifnum\rowc=\@ne \hrule height 1.3pt \fi}
+    \def\ruleb{
+    \ifnum\rowc=1\hrule height 1.3pt \else
+    \ifnum\rowc=6\hrule height \heavyrulewidth 
+       \else \hrule height \lightrulewidth\fi\fi}
+    \valign\bgroup
+    \global\rowc\@ne
+    \rulea
+    \hbox to 10em{\strut \hfill##\hfill}%
+    \ruleb
+    &&%
+    \global\advance\rowc\@ne
+    \hbox to 10em{\strut\hfill##\hfill}%
+    \ruleb
+    \cr}
+    \def\endttabular{%
+    \crcr\egroup\egroup}
+    
+    % Couleurs
+    
+    \usepackage{tcolorbox}
+    
+    
+    
+    %équivalent tilde : \sim
+    %très petit, grand \ll et \gg
+    %Pour les formules aller sur codecogs
+    %Si "missing delimiter" mettre un point derrière le \right (car il finit la ligne cf forum) ou alors : ne pas oublier que c'est \right\}
+    %ANSI : mettre latin1`
+    %Pour environnement align : mettre & devant le = pour bien aligner 
+    %Mettre le tableofcontents avant pour avoir une table avant le document et après sinon
+    %Attention : bien lancer deux fois lors d'une modification de la table des matières
+    %Attention : il ne capte pas les environnements dans les tableaux : faire des environnements tabularx
+    
+    \hypersetup{colorlinks=true,linkcolor=black}
+    
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \lfoot{S. DO }
+    \rfoot{\thepage}
+    \cfoot{ }
+    \lhead{COMPUTATIONAL STATISTICS}
+    \chead{ }
+    \rhead{  }
+    
+    \renewcommand{\footrulewidth}{1pt}
+    
+    \newcommand{\ind}{\setlength\parindent{0.5cm}} 
+    
+\begin{document}
+    
+\thispagestyle{empty}
+
+\title{Computational Statistics\\ Homework 2 }
+\author{Salomé Do}
+\maketitle
+
+\section*{Exercise 5.4. Simulated Annealing Algorithm}
+
+\subsection*{(a) Reproducing simulations from Example 5.5}
+
+
+With the code in the jupyter notebook, we reproduce Example 5.5., i.e.
+Simulated Annealing algorithm with :
+
+\begin{align*}
+    h(x) &= [\cos(50x) + \sin(20x)]^2 \\
+    a_t &= max(x^{(t)}-r, 0) \\
+    b_t &= min(x^{(t)}+r, 1) \\
+    u &\sim \mathcal{U}(a_t, b_t) \\
+    \rho^{(t)} &= \min \left \{  \exp\left ( \frac{h(u)-h(x^{(t)})}{T_t}\right ), 1    \right \} \\
+    T_t &= \frac{1}{\log(t)}
+\end{align*}
+The algorithm is, at each time $t$: 
+\begin{enumerate}
+    \item Simulate $u \sim \mathcal{U}(a_t, b_t)$. 
+    \item Accept $x^{(t+1)}$ with probability $\rho^{(t)}$, take$x^{(t+1)} =x^{(t)}$ otherwise.
+    \item Update $T_t$ to $T_{t+1}$.
+\end{enumerate}
+
+\noindent And we start a sequence of $2500$ simulations with $x^{(0)}= 0$. 
+As in Example 5.5, four sequences are simulated and represented in Figure \ref{fig:sa1}.
+
+\subsection*{(b) Changing parameters in $r$ and $T_t$}
+
+We now define $T_t = \frac{c}{\log(t)}$. We show in Figure \ref{fig:sa2} simulated
+sequences for a range of $r$ and $c$ values. We see that lower values of $c$
+seem to give a faster convergence. Regarding $r$, $r=0.75$ seems to be the value that
+fastens convergence the most.
+
+    \begin{figure}
+        \begin{center}
+            \captionof{figure}{Reproduction of Example 5.5 : Simulated Annealing algorithm}
+            \label{fig:sa1}
+            \includegraphics[scale=0.5]{plot1.png} 
+        \end{center}
+    \end{figure}
+
+    \begin{figure}
+        \begin{center}
+            \captionof{figure}{Simulated Annealing for various values of $r$ and $c$}
+            \label{fig:sa2}
+            \includegraphics[scale=0.3]{plot.png}
+        \end{center}
+    \end{figure}
+
+\newpage
+\section*{Exercise 5.22. EM Algorithm on Bernouilli Variables}
+
+Here, we observe $X_1, ..., X_n$ i.i.d. depending on $Z_1, ..., Z_n$ 
+independently distributed as $\mathcal{N}(\zeta, \sigma^2)$. 
+We have, for a known threshold $u$ : 
+\begin{align*}
+    X_i &= \left \{ \begin{array}{ccc}
+        0 & \text{if} & Z_i \leq u \\
+        1 & \text{if} & Z_i > u \\
+    \end{array} \right .
+\end{align*}
+
+Our aim is to obtain MLE estimates for $\zeta, \sigma^2$.
+\subsection*{(a) Likelihood function}
+
+We want to compute $\mathcal{L}(x; (\zeta, \sigma))$. We have :
+\begin{align*}
+    \mathcal{L}(x; (\zeta, \sigma)) &= 
+                \prod_{i=1}^{n} \mathbb{P}(X_i = x_i | \zeta, \sigma) \\
+            &=p^S (1-p)^{n-S}
+\end{align*}
+As the $X_i$ are drawn independently from a Bernouilli.
+ $p$ is the probability for $X_i$ to be equal to $1$, thus:
+ \begin{align*}
+    p &= \mathbb{P}(Z_i > u) \\
+    &= \mathbb{P}\left (\frac{Z_i-\zeta}{\sigma} > \frac{u-\zeta}{\sigma} \right ) \\
+    &= 1- \mathbb{P}\left (\frac{Z_i-\zeta}{\sigma} \leq \frac{u-\zeta}{\sigma} \right ) \\
+    &= 1-\Phi \left ( \frac{u-\zeta}{\sigma}  \right)\\
+    &= \Phi \left( \frac{\zeta - u}{\sigma}  \right)
+ \end{align*}
+
+ \noindent $S$ is the number of $x_i$ equal to one, thus we can write :
+ \[S = \sum_{i=1}^{n} x_i\]
+
+ \subsection*{(b) Complete Likelihood}
+
+ We are now interested in the complete likelihood function $\mathcal{L}((z); (\zeta, \sigma ))$. We have : 
+ \begin{align*}
+    \mathcal{L}(z; (\zeta, \sigma )) 
+            &= \prod_{i=1}^{n} \mathbb{P}(Z_i = z_i | \zeta, \sigma) \\
+            &= \prod_{i=1}^{n} \frac{1}{\sigma \sqrt{2\pi}} \exp \left (- \frac{(z_i - \zeta)^2}{2\sigma^2}\right )
+ \end{align*}
+
+Thus, 
+\begin{align*}
+   \log  \mathcal{L}(( z); (\zeta, \sigma ))  
+     &= \sum_{i=1}^n - \frac{1}{2} \log (2\pi \sigma^2) - \frac{(z_i-\zeta)^2}{2\sigma^2} \\
+    &= - \frac{n}{2} \log (2\pi \sigma^2) - \sum_{i=1}^n  \frac{(z_i-\zeta)^2}{2\sigma^2}
+    \end{align*}
+
+Then, we take the expectation of this function, on the observed data, i.e. the $(x_i)$, regarding the random
+variables $Z_i$ : 
+
+\begin{align*}
+    \mathbb{E}\left [ \log \mathcal{L}( (Z_i)_i; (\zeta, \sigma )) |x_i \right ] &= 
+    - \frac{n}{2} \log (2\pi \sigma^2) - \sum_{i=1}^n \mathbb{E} \left [   \frac{(Z_i-\zeta)^2}{2\sigma^2} \right|x_i ] \\
+    &= - \frac{n}{2} \log (2\pi \sigma^2) -\frac{1}{2\sigma^2} \sum_{i=1}^n \mathbb{E}  [  Z_i^2 - 2 \zeta Z_i + \zeta^2  | x_i ] \\
+    &= - \frac{n}{2} \log (2\pi \sigma^2) -\frac{1}{2\sigma^2} \sum_{i=1}^n ( \mathbb{E} [ Z_i^2|x_i ]- 2 \zeta\mathbb{E}  [ Z_i|x_i] + \zeta^2 ) \\
+\end{align*}
+
+\subsection*{(c) EM Sequence}
+We now want to give the EM sequence. We first treat $\zeta^{(t)}$ sequence :
+
+\begin{align*}
+    \frac{\partial
+    \mathbb{E}\left [ \log \mathcal{L}( (Z_i)_i; \zeta = \zeta^{(t)}, \sigma = \sigma^{(t)}) |x_i \right ]
+    }{\partial \zeta^{(t)} }
+    &= -\frac{1}{2(\sigma^{(t)})^2} \sum_{i=1}^{n} (- 2\mathbb{E}[Z_i|x_i , \zeta^{(t)}, \sigma^{(t)}]
+    +2 \zeta^{(t)}) \\
+    &= - \frac{n}{(\sigma^{(t)})^2}  \zeta^{(t)} + \frac{1}{(\sigma^{(t)})^2} \sum_{i=1}^{n}  \mathbb{E}[Z_i|x_i, \zeta^{(t)}, \sigma^{(t)}]
+\end{align*} 
+We chose $\zeta^{(t+1)}$ to minimize the expected log-likelihood of the complete data, thus: 
+
+\begin{align*}
+    \zeta^{(t+1)} = \frac{1}{n} \sum_{i=1}^{n} \mathbb{E}[Z_i |x_i, \zeta^{(t)}, \sigma^{(t)}]
+\end{align*}
+
+\noindent We are now interested in $\sigma^{(t)}$. We compute : 
+\begin{align*}
+    \frac{\partial
+    \mathbb{E}\left [ \log \mathcal{L}( (Z_i)_i; \zeta = \zeta^{(t)}, \sigma = \sigma^{(t)}) |x_i \right ]
+    }{\partial (\sigma^{(t)})^2 }
+    &= -\frac{n}{2} \frac{2\pi}{2\pi (\sigma^{(t)})^2} \\
+    &+ \frac{1}{2 ((\sigma^{(t)})^2)^2 }
+    \left [  
+    \sum_{i=1}^n \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+    - 2 \zeta^{(t)} \mathbb{E}[Z_i|x_i, \zeta^{(t)}, \sigma^{(t)}] + (\zeta^{(t)})^2    
+    \right ] \\
+    % &= -\frac{n}{2  (\sigma^{(t)})^2}
+\end{align*}
+
+\noindent Minimization of the expected log-likehood of the complete data gives:
+\begin{align*}
+    (\sigma^{(t+1)})^2 &= \frac{1}{n}  \left [  
+        \sum_{i=1}^n \left ( \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+        - 2 \zeta^{(t+1)} \mathbb{E}[Z_i|x_i, \zeta^{(t)}, \sigma^{(t)}] + (\zeta^{(t+1)})^2    
+        \right ) \right ] \\
+    &=   \frac{1}{n}  \left [  
+        \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+        - 2 \zeta^{(t+1)}\sum_{i=1}^n \mathbb{E}[Z_i|x_i, \zeta^{(t)}, \sigma^{(t)}] + n(\zeta^{(t+1})^2    
+         \right ] \\
+    &= \frac{1}{n} \left [  
+        \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+        - 2 \zeta^{(t+1)}\sum_{i=1}^n \mathbb{E}[Z_i|x_i, \zeta^{(t)}, \sigma^{(t)}] + n(\zeta^{(t+1)})^2    
+         \right ] \\
+    &= \frac{1}{n} \left [  
+        \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+        - 2 \zeta^{(t+1)}n \zeta^{(t+1)}+ n(\zeta^{(t+1)})^2    
+         \right ] \\
+     &= \frac{1}{n} \left [  
+            \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+            - n(\zeta^{(t+1)})^2    
+             \right ] \\
+     &= \frac{1}{n} \left [  
+                \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+                - n(\zeta^{(t+1)})^2    
+                 \right ] \\
+     &= \frac{1}{n} \left [  
+                    \sum_{i=1}^n  \mathbb{E}[Z_i^2|x_i, \zeta^{(t)}, \sigma^{(t)}] 
+                    - \frac{1}{n}
+                    \left (\sum_{i=1}^n \mathbb{E}[Z_i |x_i, \zeta^{(t)}, \sigma^{(t)}]
+                    \right )^2    
+                     \right ] \\
+\end{align*}
+
+\subsection*{(d) Expectations Computation}
+
+We want to compute $\mathbb{E}[Z_i |x_i, \zeta, \sigma]$. Let's first suppose that $X_i=1$. 
+Then :
+\begin{align*}
+    \mathbb{E}[Z_i | X_i=1\zeta, \sigma]] &= \frac{1}{\mathbb{P}(X_i=1)}
+                              \int_{u}^{\infty}
+                              z
+                              \frac{1}{\sigma \sqrt{2\pi}} 
+                              e^{ \frac{-(z-\zeta)^2}{2 \sigma^2}  } dz \\
+        &= \frac{1}{\mathbb{P}(Z_i > u)}
+             \int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+             (\zeta+\sigma x) 
+             \frac{1}{\sigma \sqrt{2\pi}} 
+             e^{ \frac{-x^2}{2}  } 
+             \sigma dx \ \ \ \ \ \leftarrow x=\frac{z-\zeta}{\sigma} \\
+        &= \frac{1}{1 - \Phi(\frac{u-\zeta}{\sigma})}
+            \int_{\frac{u-\zeta}{\sigma}}^{\infty}
+            (\zeta+\sigma x) 
+            \frac{1}{ \sqrt{2\pi}} 
+            e^{ \frac{-x^2}{2}  } 
+            dx \\
+        &= \frac{1}{1 - \Phi(\frac{u-\zeta}{\sigma})}
+            \left [
+            \zeta
+            \int_{\frac{u-\zeta}{\sigma}}^{\infty}
+            \frac{1}{ \sqrt{2\pi}} 
+            e^{ \frac{-x^2}{2}  } 
+            dx
+            -
+            \sigma  \frac{1}{\sqrt{2\pi}}
+            \int_{\frac{u-\zeta}{\sigma}}^{\infty}
+            (-x) 
+            e^{ \frac{-x^2}{2}  } 
+            dx
+            \right ] \\
+        &= \frac{1}{1 - \Phi(\frac{u-\zeta}{\sigma} )}
+            \left [
+            \zeta
+            (1 - \Phi \left (\frac{u-\zeta}{\sigma}\right ) )
+            -
+            \sigma \frac{1}{\sqrt{2\pi}}
+            \left [
+            e^{ \frac{-x^2}{2}  } 
+            \right ]^{\infty}_{\frac{u-\zeta}{\sigma}}
+            \right ] \\
+        &= \frac{1}{1 - \Phi(\frac{u-\zeta}{\sigma} )}
+            \left [
+            \zeta
+            (1- \Phi \left (\frac{u-\zeta}{\sigma}\right ) )
+            +
+            \sigma \frac{1}{\sqrt{2\pi}}
+            e^{ -\frac{(u-\zeta)^2}{2\sigma}  } 
+            \right ] \\
+        &= \zeta + \sigma 
+        \frac{\varphi \left ( \frac{u-\zeta}{\sigma} \right )}
+        {1- \Phi \left (\frac{u-\zeta}{\sigma}\right )} \\
+        % &= \zeta + \sigma H_i\left (\frac{u-\zeta}{\sigma} \right)
+\end{align*}
+Now, if $X_i=0$ : 
+\begin{align*}
+\mathbb{E}[Z_i | X_i=0, \zeta, \sigma] &= \frac{1}{\mathbb{P}(X_i=0)}
+    \int_{-\infty}^{u}
+    z
+    \frac{1}{\sigma \sqrt{2\pi}} 
+    e^{ \frac{-(z-\zeta)^2}{2 \sigma^2}  } dz \\
+\end{align*}
+
+\noindent Using the same substitution $x = \frac{z-\zeta}{\sigma}$ as in the first case, we have:
+
+\begin{align*}
+\mathbb{E}[Z_i | X_i=0, \zeta, \sigma] &= \frac{1}{\Phi(\frac{u-\zeta}{\sigma})}
+                \left [
+                \zeta
+                 \Phi \left (\frac{u-\zeta}{\sigma}\right ) 
+                 -
+                \sigma \frac{1}{\sqrt{2\pi}}
+                e^{ -\frac{(u-\zeta)^2}{2\sigma}  } 
+                \right ] \\
+                &= \zeta 
+                -\sigma 
+                \frac{\varphi \left ( \frac{u-\zeta}{\sigma} \right )}
+                { \Phi \left (\frac{u-\zeta}{\sigma}\right )}
+    \end{align*}
+
+\noindent Thus, we generally have :
+
+\begin{align*}
+    \mathbb{E}[Z_i|x_i, \zeta, \sigma] = \zeta + \sigma H_i\left (\frac{u-\zeta}{\sigma} \right)
+\end{align*}
+With $H_i$ as described in the exercice. Let's compute the 
+expectation $\mathbb{E}[Z^2_i|x_i, \zeta, \sigma]$, in the same way. First : 
+\begin{align*}
+    \mathbb{E}[Z_i^2 |X_i = 1, \zeta, \sigma] &= \frac{1}{\mathbb{P}(X_i=1)}
+                    \int_{u}^{\infty}
+                    z^2
+                    \frac{1}{\sigma \sqrt{2\pi}} 
+                    e^{ \frac{-(z-\zeta)^2}{2 \sigma^2}  } dz \\
+                &= \frac{1}{\mathbb{P}(Z_i > u)}
+                    \int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+                    (\zeta+\sigma x)^2
+                    \frac{1}{\sigma \sqrt{2\pi}} 
+                    e^{ \frac{-x^2}{2}  } 
+                    \sigma dx \ \ \ \ \ \leftarrow x=\frac{z-\zeta}{\sigma} \\
+\mathbb{E}[Z_i^2 |X_i = 1, \zeta, \sigma] 
+(1- \Phi \left (\frac{u-\zeta}{\sigma}\right ) )
+                &= 
+                \zeta^2
+                \int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+                \frac{1}{\sqrt{2\pi}} 
+                e^{ \frac{-x^2}{2}  } 
+                  dx \\
+                &- 2\zeta \sigma
+                \int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+                (- x)
+                \frac{1}{\sqrt{2\pi}} 
+                e^{ \frac{-x^2}{2}  } 
+                dx \\
+                &+ \sigma^2
+                \int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+                x^2
+                \frac{1}{\sqrt{2\pi}} 
+                e^{ \frac{-x^2}{2}  } 
+                dx \\
+                &= 
+                \zeta^2
+                (1- \Phi \left (\frac{u-\zeta}{\sigma}\right ) )
+                + 2 \zeta \sigma \varphi \left (\frac{u-\zeta}{\sigma}\right ) + A
+\end{align*}
+
+Where $A =\sigma^2
+\int_{\frac{u-\zeta}{\sigma}}^{\infty} 
+x^2
+\frac{1}{\sqrt{2\pi}} 
+e^{ \frac{-x^2}{2}  } 
+dx $ . We use integration by parts to compute $A$. 
+\begin{align*}
+   A  &= -\frac{\sigma^2}{\sqrt{2\pi}}
+            \left (
+            \left [
+                x e^{-\frac{x^2}{2}}
+            \right ]_{\frac{u-\zeta}{\sigma}}^{\infty}
+            - 
+            \int_{\frac{u-\zeta}{\sigma}}^{\infty}
+            e^{-\frac{x^2}{2}} dx
+            \right ) \\
+        &= \sigma (u-\zeta) 
+        \varphi \left (\frac{u-\zeta}{\sigma} \right)
+        + \sigma^2 
+        (1- \Phi \left (\frac{u-\zeta}{\sigma}\right ) )
+\end{align*}
+\noindent Thus, we have:
+
+\begin{align*}
+    \mathbb{E}[Z_i^2 |X_i = 1, \zeta, \sigma]  &= \zeta^2 
+                                + \sigma^2 
+                                +\sigma(u+\zeta) 
+                                \frac{\varphi \left ( \frac{u-\zeta}{\sigma} \right )}
+        {1- \Phi \left (\frac{u-\zeta}{\sigma}\right )}
+\end{align*}
+
+By re-using the same substitution and integration by parts for $\mathbb{E}[Z_i^2|X_i=0]$, 
+we find that $  \mathbb{E}[Z_i^2 |X_i = 0, \zeta, \sigma]  = \zeta^2 
++ \sigma^2 
+-\sigma(u+\zeta) 
+\frac{\varphi \left ( \frac{u-\zeta}{\sigma} \right )}
+{\Phi \left (\frac{u-\zeta}{\sigma}\right )}$, so we can conclude that :
+
+\begin{align*}
+    \mathbb{E}[Z_i^2 |x_i, \zeta, \sigma] = \zeta^2 
+    + \sigma^2 
+    +\sigma(u+\zeta) H_i\left (  \frac{u-\zeta}{\sigma}   \right )
+\end{align*}
+
+\subsection*{(e) Convergence }
+
+Let's return to the expected complete-data log-likelihood, which is equal to  : 
+
+
+\begin{align*}
+   &  \mathbb{E}\left [ \log \mathcal{L}( Z|x_i,  \zeta^*, \sigma^*\right) ] = \\
+   & - \frac{n}{2} \log (2\pi \sigma^2) -\frac{1}{2\sigma^2} 
+   \sum_{i=1}^n ( \mathbb{E} [ Z_i^2|x_i ,  \zeta^*, \sigma^*]
+   - 2 \zeta \mathbb{E}  [ Z_i|x_i,  \zeta^*, \sigma^*] + \zeta^2 ) \\
+   &= - \frac{n}{2} \log (2\pi \sigma^2) -\frac{1}{2\sigma^2} 
+    \sum_{i=1}^n \left [
+    \zeta^* + \sigma^* H_i\left (\frac{u-\zeta^*}{\sigma^*} \right) 
+    -2 \left [ 
+(\zeta^*)^2 
+    + (\sigma^*)^2
+    +\sigma^*(u+\zeta^*) H_i\left (  \frac{u-\zeta^*}{\sigma^*}   \right )
+    \right ]
+    + \zeta^2 \right ]
+\end{align*}
+This expression is continuous in $\zeta, \sigma $ and $\zeta^*, \sigma^*$
+We can thus use Theorem 5.16. Every limit point of the EM sequence 
+is a stationnary point of the log-likehood.
+ As the log-likelihood is log-concave, is only has one maximum. The EM
+ sequence converges to the points of this maximum, and thus maximize the 
+ log-likelihood. 
+
+
+
+
+
+
+
+
+\newpage
+\section*{Exercise 5.33. EM on Bayesian Hierarchical Models}
+
+We have a hierarchical bayesian model, i.e. :
+\begin{align*}
+    X|\theta &\sim f(x|\theta) \\
+    \theta |\lambda &\sim \pi(\theta | \lambda) \\
+    \lambda &\sim \gamma(\lambda)
+\end{align*}
+We want to estimate the posterior $\pi(\theta|x)$, and in order to do so, 
+we use EM Algorithm. 
+\subsection*{(a) Log-Likelihood}
+
+Our aim is to compute $\log \pi(\theta|x)$. Let $\theta^*$ be any value 
+defined in the same set as $\theta$. We use the fact that :
+\begin{align*}
+   &  \pi(\theta|x) = \frac{\pi(\theta ,\lambda | x)}
+                            { k(\lambda | \theta, x)} \\
+   \Leftrightarrow & \log\pi(\theta|x) =
+                             \log\pi(\theta , \lambda |x)
+                              - \log k(\lambda | \theta, x) \\
+    \Leftrightarrow  &\log\pi(\theta|x)k(\lambda |\theta^*, x) = 
+                              \log\pi(\theta , \lambda| x)
+                               k(\lambda |\theta^*, x)
+                               - \log k(\lambda | \theta , x)
+                               k(\lambda |\theta^*, x) \\
+   \Leftrightarrow & \int \log\pi(\theta|x)k(\lambda |\theta^*, x) d\lambda
+                    = \int \log\pi(\theta |\lambda, x) k(\lambda |\theta^*, x) d\lambda
+                     - \int \log k(\lambda | \theta , x)k(\lambda |\theta^*, x) d\lambda \\
+\Leftrightarrow  &\log\pi(\theta|x))\underset{=1}{\underbrace{\int k(\lambda |\theta^*, x) d\lambda}}
+                     = \int \log\pi(\theta |\lambda, x) k(\lambda |\theta^*, x) d\lambda
+                      - \int \log k(\lambda | \theta , x)k(\lambda |\theta^*, x) d\lambda \\
+                    \end{align*}
+
+\noindent Thus, we have, for any $\theta^*$:
+\begin{align}\label{eq:reference}
+    \log\pi(\theta|x) 
+    = \int \log\pi(\theta |\lambda, x) k(\lambda |\theta^*, x) d\lambda
+     - \int \log k(\lambda | \theta , x)k(\lambda |\theta^*, x) d\lambda 
+\end{align}
+
+\subsection*{(b) EM Sequence}
+We want to show that the EM Sequence improves $\log \pi(\theta^{(j)}|x)$ at each step $j$, i.e.
+$\log \pi(\theta^{(j+1)}|x) \geq \log \pi(\theta^{(j)}|x), \forall j \in \N$ . 
+We re-write Equation \ref{eq:reference} as:
+\begin{align}\label{eq:ref2}
+    \log \pi(\theta |x )&:=  Q(\theta|\theta^{*}, x) 
+    - \mathbb{E}_{\theta^{*}}[\log k(\lambda |\theta, x)]
+\end{align}
+
+\noindent Where the expectation is taken with respect to $k(\lambda | \theta^{*}, x)$. 
+Let's define the EM Sequence $(\theta^{(j)})_{j\in \N}$  for each step with :
+\begin{align*}
+    \theta^{(j+1)} &= \arg \underset{\theta}{\max}  \  Q(\theta|\theta^{(j)}, x)  \\
+    &=  \arg \underset{\theta}{\max} 
+     \int \log\pi(\theta |\lambda, x) k(\lambda |\theta^{(j)}, x) d\lambda
+    %- \int \log k(\lambda | \theta , x)k(\lambda |\theta^{(j)}, x) d\lambda \\
+    % &:= \arg \underset{\theta}{\max}   Q(\theta|\theta^{(j)}, x) 
+    % - \mathbb{E}_{\theta^{(j)}}[\log k(\lambda |\theta, x)]
+\end{align*}
+
+\noindent By definition of $\theta^{(j+1)}$ : 
+\begin{align} \label{eq:res1}
+    Q(\theta^{(j+1)}|\theta^{(j)}, x) \geq 
+Q(\theta^{(j)}|\theta^{(j)}, x)
+\end{align}
+We finally want to show that :
+\begin{align*}
+    \mathbb{E}_{\theta^{(j)}}[\log k(\lambda | \theta^{(j+1)}, x)]
+    \leq \mathbb{E}_{\theta^{(j)}}[\log k(\lambda | \theta^{(j)}, x)]
+\end{align*}
+Jensen's inequality for concave functions is the following: for any concave 
+function $f$, 
+\begin{align*}
+    f(\mathbb{E}[X]) \geq \mathbb{E}[f(X)]
+\end{align*}
+Taking $f=\log$ and $X = \frac{k(\lambda | \theta^{(j+1)}, x)}{k(\lambda | \theta^{(j)}, x)}$, 
+we have : 
+\begin{align*}
+    \mathbb{E}_{\theta^{(j)}} \left [
+\log \left (
+    \frac{k(\lambda | \theta^{(j+1)}, x)}{k(\lambda | \theta^{(j)}, x)}
+\right )
+    \right ]
+    &\leq 
+\log \mathbb{E}_{\theta^{(j)}} 
+\left [
+    \frac{k(\lambda | \theta^{(j+1)}, x)}{k(\lambda | \theta^{(j)}, x)}
+\right ] \\
+        &= \log \int    \frac{k(\lambda | \theta^{(j+1)}, x)}{k(\lambda | \theta^{(j)}, x)} k(\lambda|\theta^{(j)}, x) d\lambda \\
+    &= 0
+    \end{align*}
+Which directly implies that : 
+\begin{align}\label{eq:res2}
+    \mathbb{E}_{\theta^{(j)}}[\log k(\lambda | \theta^{(j+1)}, x)]
+    \leq \mathbb{E}_{\theta^{(j)}}[\log k(\lambda | \theta^{(j)}, x)]
+\end{align}
+Thus, by taking $\theta^* = \theta^{(j)}$ in (\ref{eq:ref2}), we showed (\ref{eq:res1}) and (\ref{eq:res2}), directly giving :
+\begin{align*}
+    \log \pi(\theta^{(j+1)} |x) \geq \log \pi(\theta^{(j)} |x)
+\end{align*}
+
+\noindent According to Theorem 5.16., if $Q(\theta |\theta^*, x)$ is continuous 
+in both $\theta$ and $\theta^*$, every limit point of $(\theta^{(j)})_{j \in \N}$
+is a stationnary point of $\log \pi(\theta | x)$, and $\log \pi(\theta^{(j)} | x)$
+converges monotonically to $\log \pi(\hat{\theta} |x)$ for some stationnary
+point $\hat{\theta} $.
+
+
+\subsection*{(c) Application}
+We apply this EM strategy to the hierarchical model : 
+\begin{align*}
+    X|\theta &\sim \mathcal{N}(\theta, 1) \\
+    \theta | \lambda &\sim \mathcal{N}(\lambda, 1)
+\end{align*}
+With $\pi(\lambda) = 1$.
+At a given step $j$, we want to compute :
+\begin{align*}
+    \theta^{(j+1)} &= \arg \underset{\theta}{\max}  \  Q(\theta|\theta^{(j)}, x)  \\
+    &=  \arg \underset{\theta}{\max} 
+     \int \log\pi(\theta |\lambda, x) k(\lambda |\theta^{(j)}, x) d\lambda
+\end{align*}
+Following Baye's rule, we have:
+\begin{align*}
+    \pi(\theta, \lambda |x) &= \frac{\pi(x|\theta) \pi(\theta |\lambda ) \pi(\lambda)}{\pi(x)}
+\end{align*}
+We know $\pi(x|\theta) ,\pi(\theta |\lambda )$ and $\pi(\lambda)$. $\pi(x)$ is a constant
+only depending on the observed data.
+$Q$ can be re-wrote as:
+\begin{align*}
+    Q(\theta|\theta^{(j)}, x) = R(\theta) + 
+    \underset{=C}{
+    \underbrace{\int \log \frac{\pi(\lambda)}{\pi(x) } k(\lambda |\theta^{(j)}, x) d\lambda}
+    }
+\end{align*}
+Thus, $\arg \underset{\theta}{\max}  \  Q(\theta|\theta^{(j)}, x) = \arg \underset{\theta}{\max} \ R(\theta)$.
+We have :
+\begin{align*}
+    R(\theta) = \int \underset{A(\theta, \lambda)}{\underbrace{\log [\pi(x|\theta) \pi(\theta |\lambda )] }}
+    \underset{B( \lambda, \theta^{(j)})}{\underbrace{k(\lambda|\theta^{(j)}, x)} }d\lambda
+\end{align*}
+Compute :
+\begin{align*}
+    A(\theta, \lambda)&= \log [\pi(x|\theta)] + \log [ \pi(\theta |\lambda )] \\
+            &= - \frac{1}{2} \log (2\pi) - \frac{(x-\theta)^2}{2}
+            - \frac{1}{2} \log (2\pi) - \frac{(\theta-\lambda)^2}{2}, \\
+            \frac{\partial A(\theta, \lambda)}{\partial \theta}
+            &= \theta(x-\theta) - \theta(\theta - \lambda) \\
+            &= \theta(x - 2\theta +\lambda)
+\end{align*}
+Finally, as $\int B(\lambda, \theta^{(j)}) d\lambda = 1$, 
+\begin{align*}
+    \frac{\partial R(\theta)}{\partial \theta} &=
+        \int B(\lambda, \theta^{(j)}) \frac{\partial A(\theta, \lambda)}{\partial \theta}
+        d \lambda \\
+        &= \theta(x-2\theta) + \theta \int \lambda B(\lambda, \theta^{(j)}) d\lambda \\
+        &= \theta(x- 2\theta + \mathbb{E}[\lambda | \theta^{(j)}, x])
+\end{align*}
+This leads us to :
+\begin{align}\label{eq:res3}
+    \theta^{(j+1)} = \frac{1}{2}(x +  \mathbb{E}[\lambda | \theta^{(j)}, x])    )
+\end{align}
+However, we haven't computed   $\mathbb{E}[\lambda | \theta^{(j)}, x])$ yet.
+Following Bayes's rule :
+\begin{align*}
+    k(\lambda|\theta^{(j)}, x) = \frac{\pi(x|\theta^{(j)})
+                                        \pi (\theta^{(j)}|\lambda)
+                                        \pi(\lambda) }
+                                        {\pi(x) \pi(\theta^{(j)}|x)}
+\end{align*}
+We know $\pi(\theta^{(j)}|x)$ as we have calculated it during the following step. 
+$\pi(x)$ is a constant that we can estimate by other means. 
+We also know $\pi(x|\theta^{(j)}) = \frac{1}{\sqrt{2\pi}}e^{\frac{(x-\theta^{(j)})^2}{2}}$
+and $\pi(\theta^{(j)}\lambda) = \frac{1}{\sqrt{2\pi}}e^{\frac{(\theta^{(j)}-\lambda)^2}{2}}$. Using 
+$\pi(\lambda) = 1$ seems strange (as $\pi(\lambda)$ should be a p.d.f ), but we will 
+stick to the problem's rules. Then, 
+\begin{align}
+    \int \lambda k(\lambda|\theta^{(j)}, x) d\lambda &= 
+        \frac{e^{\frac{(x-\theta^{(j)})^2}{2} } }{\sqrt{2\pi} \pi(x) \pi(\theta^{(j)}|x)}
+        \int \lambda 
+        \frac{1}{\sqrt{2\pi}}e^{\frac{(\theta^{(j)}-\lambda)^2}{2}}
+              \pi(\lambda) d\lambda \\
+            &= \frac{e^{\frac{(x-\theta^{(j)})^2}{2} } }{\sqrt{2\pi} \pi(x) \pi(\theta^{(j)}|x)}
+                \theta^{(j)}, \text{ if } \pi(\lambda) = 1 \label{eq:res4}
+\end{align}
+Using (\ref{eq:res3}) and (\ref{eq:res4}), we can apply EM Algorithm to this bayesian hierarchical model.
+
+\end{document}

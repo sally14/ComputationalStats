@@ -1,0 +1,423 @@
+\documentclass{article}
+
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+    \usepackage{aeguill}
+    % \usepackage[francais]{babel}
+    \usepackage[a4paper]{geometry}
+    \usepackage{array}
+    \usepackage{amsfonts}
+    \usepackage{amsmath} 
+    \usepackage{amssymb}
+    \usepackage{amsthm}
+    \usepackage{xspace}
+    \usepackage{dsfont}
+    \usepackage{collcell}
+    \usepackage{datatool}
+    \usepackage{enumitem}
+    \usepackage{xstring}
+    \usepackage{booktabs}
+    \usepackage{environ}
+    \usepackage{bbm} 
+    \usepackage{hyperref}
+    \usepackage{graphicx}
+    \usepackage{caption}
+    \usepackage{stmaryrd}
+    \usepackage[dvipsnames]{xcolor}
+    \usepackage{tikz}
+    \usetikzlibrary{trees}
+    \usepackage{ulem}
+    \usepackage{cancel}
+    \usepackage{pgfplots}
+    % \usepackage{minted}
+    % \usemintedstyle{monokai}
+    \usepackage{multicol}
+    
+    \pgfplotsset{compat=newest}
+    \usetikzlibrary{automata} % LATEX and plain TEX
+    \usetikzlibrary[automata] % ConTEXt
+    \usetikzlibrary{arrows}
+    \usetikzlibrary{automata,arrows,positioning,calc}
+    \xdefinecolor{vertf}{named}{OliveGreen}
+    \xdefinecolor{rougef}{named}{BrickRed}
+    \xdefinecolor{bleuf}{named}{BlueViolet}
+    \newcommand{\Var}{vecteur aléatoire réel\xspace}
+    \newcommand{\var}{variable aléatoire réelle\xspace}
+    \newcommand{\ssi}{si et seulement si\xspace}
+    \newcommand{\cad}{c'est-à-dire\xspace}
+    \newcommand{\fdr}{fonction de répartition \xspace}
+    \newcommand{\pp}{\mathbb P}
+    \newcommand{\un}{\mathbbm{1}}
+    \newcommand{\esp}{\mathbb E}
+    \newcommand{\vari}{\mathbb V}
+    \newcommand{\cov}{\text{Cov}} 
+    \newcommand{\gras}{\textbf}
+    \newcommand{\itemb}{\item[$\bullet$]}
+    \newcommand{\rouge}{\textcolor{red}}
+    \newcommand{\bleu}{\textcolor{blue}}
+    \newcommand{\rougef}{\textcolor{rougef}}
+    \newcommand{\vertf}{\textcolor{vertf}}
+    \newcommand{\bleuf}{\textcolor{bleuf}}
+    \newcommand{\limn}{\underset{n\rightarrow +\infty}{\lim}}
+    \newcommand{\flechn}{\underset{n\rightarrow +\infty}{\longrightarrow}}
+    \newcommand{\RR}{\mathbb R}
+    \newcommand{\Q}{\mathbb Q}
+    \newcommand{\N}{\mathbb N}
+    \newcommand{\Z}{\mathbb Z}
+    \newcommand{\R}{\mathbb R}
+    \newcommand{\D}{\mathbb D}
+    \newcommand{\C}{\mathbb C}
+    \newcommand{\Rn}{\mathbb R^n}
+    \newcommand{\Rp}{\mathbb R^p}
+    \newcommand{\Rq}{\mathbb R^q}
+    \newcommand{\brn}{\mathcal B(\mathbb R^n)}
+    \newcommand{\brp}{\mathcal B(\mathbb R^p)}
+    \newcommand{\brq}{\mathcal B(\mathbb R^q)}
+    \newcommand{\br}{\mathcal B(\mathbb R)}
+    \newcommand{\brbarre}{\mathcal B(\overline{\mathbb R}}
+    \newcommand{\pps}{P-presque-sûrement\xspace}
+    \newcommand{\mespos}{\mathcal M^+(\mathcal B(\mathbb R^n),\mathcal B(\overline{\mathbb R}))}
+    \newcommand{\cvps}{\xrightarrow[n\rightarrow\infty]{p.s.}}
+    \newcommand{\cvld}{\xrightarrow[n\rightarrow\infty]{L^2}}
+    \newcommand{\cvlp}{\xrightarrow[n\rightarrow\infty]{L^p}}
+    \newcommand{\cvp}{\xrightarrow[n\rightarrow\infty]{\mathbb P}}
+    \newcommand{\cvloi}{\xrightarrow[n\rightarrow\infty]{\mathcal L}}
+    \newcommand{\definition}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Définition]}
+    \newcommand{\propriete}{\vspace{0.5cm}\begin{tcolorbox}[colback=bleuf!5!white,colframe=bleuf!75!black,title=Propriété]}
+    \newcommand{\proprietee}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Propriété]}
+    \newcommand{\theoreme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Théorème]}
+    \newcommand{\lemme}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Lemme]}
+    \newcommand{\proposition}{\vspace{0.5cm}\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Proposition]}
+    \newcommand{\fin}{\end{tcolorbox}\vspace{0.5cm}}
+    \newcommand{\preuve}{\noindent\uline{Preuve :}\xspace}
+    \newcommand{\remarque}{\noindent\uline{Remarque :}\xspace}
+    \newcommand{\exemple}{\noindent\uline{Exemple :}\xspace}
+    \newcommand{\rappel}{\noindent\uline{Rappel :}\xspace}
+    \newcommand{\notation}{\noindent\uline{Notation :}\xspace}
+    
+    
+    % transposition de tableaux
+    
+    
+    \usepackage{booktabs,array}
+    \def\Midrule{\midrule[\heavyrulewidth]}
+    \newcount\rowc
+    
+    \makeatletter
+    \def\ttabular{%
+    \hbox\bgroup
+    \let\\\cr
+    \def\rulea{\ifnum\rowc=\@ne \hrule height 1.3pt \fi}
+    \def\ruleb{
+    \ifnum\rowc=1\hrule height 1.3pt \else
+    \ifnum\rowc=6\hrule height \heavyrulewidth 
+       \else \hrule height \lightrulewidth\fi\fi}
+    \valign\bgroup
+    \global\rowc\@ne
+    \rulea
+    \hbox to 10em{\strut \hfill##\hfill}%
+    \ruleb
+    &&%
+    \global\advance\rowc\@ne
+    \hbox to 10em{\strut\hfill##\hfill}%
+    \ruleb
+    \cr}
+    \def\endttabular{%
+    \crcr\egroup\egroup}
+    
+    % Couleurs
+    
+    \usepackage{tcolorbox}
+    
+    
+    
+    %équivalent tilde : \sim
+    %très petit, grand \ll et \gg
+    %Pour les formules aller sur codecogs
+    %Si "missing delimiter" mettre un point derrière le \right (car il finit la ligne cf forum) ou alors : ne pas oublier que c'est \right\}
+    %ANSI : mettre latin1`
+    %Pour environnement align : mettre & devant le = pour bien aligner 
+    %Mettre le tableofcontents avant pour avoir une table avant le document et après sinon
+    %Attention : bien lancer deux fois lors d'une modification de la table des matières
+    %Attention : il ne capte pas les environnements dans les tableaux : faire des environnements tabularx
+    
+    \hypersetup{colorlinks=true,linkcolor=black}
+    
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \lfoot{S. DO }
+    \rfoot{\thepage}
+    \cfoot{ }
+    \lhead{COMPUTATIONAL STATISTICS}
+    \chead{ }
+    \rhead{ TD3 }
+    
+    \renewcommand{\footrulewidth}{1pt}
+    
+    \newcommand{\ind}{\setlength\parindent{0.5cm}} 
+    
+\begin{document}
+    
+\thispagestyle{empty}
+
+\title{Computational statistics \\ Homework 3}
+\author{Salomé Do}
+\maketitle
+
+\section*{Exercise 7.22. : Travelling salesman problem with Metropolis-Hastings Algorithm}
+
+
+
+The travelling salesman problem (TSP) can be formulated as follows : 
+a salesmans has to visit $N \in \mathbb{N}$ customers, all living 
+in different places  $\{ 1, ..., N \}$. The salesmans minds the planet, 
+so he doesn't want to spend too much gas visiting his customers : he wants 
+to drive as few miles as possible. Thus, he must choose the shortest 
+route to visit his $N$ customers. We simulate
+ \footnote{The code can be found 
+ \href{https://github.com/sally14/ComputationalStats/blob/master/TD3/travelling_saleman.ipynb}{here}
+  } this problem with $N=30$ places 
+randomly determined.
+\begin{center}    
+    \begin{multicols}{2}
+        \captionof{figure}{Places to visit in a simulation of the TSP}
+        \includegraphics[scale=0.5]{places.png} \\ \\
+        \captionof{figure}{A random route to visit the places (d=16.4)}
+        \includegraphics[scale=0.5]{random_route.png}
+    \end{multicols}
+\end{center}
+
+The problem can be expressed as follows, considering $d$ a distance on 
+all the places $1, ..., N$, and the permutations $\sigma \in \mathcal{S}^{N}$ 
+which define the order in which the travelling salesman sees his customers: 
+
+\[\underset{\sigma \in \mathcal{S}^N}{\min}  \sum_{i} d(i, \sigma(i)) \]
+
+
+The TSP problem can be tackled through a Metropolis Hastings algorithm.
+ Let's define:  \[H(\sigma) = \sum_{i} d(i, \sigma(i))\] 
+ $H$ is the objective function to minimize, with regard to a permutation $\sigma$. \\ \\
+
+Following a Simulated-Annealing scheme, we want to :
+
+At step $i$, given a permutation $\sigma_i$:
+\begin{enumerate}
+    \item  Simulate $\zeta$ a new permutation candidate, from an 
+    instrumental density $g(|\zeta-\sigma_i|)$
+    \item Compute: $$ \rho_i = min\{\exp (\frac{\Delta h_i}{T_i}) , 1\}$$ 
+    and take $\sigma_{i+1} = \zeta$ with probability $\rho_i$, $\sigma_{i+1} = \sigma_{i}$ otherwise. 
+    \item Update $T_i$ to $T_{i+1}$
+\end{enumerate}
+
+
+To implement this algorithm, two things are to be precised :
+ the instrumental density $g$, and the 'temperature' function $T_t$.
+ First, we represent a permutation $\sigma \in \mathcal{S}^N$ as a
+ vector of dimension $N$, in the form of : 
+$$\sigma = \left ( \begin{array}{c} \sigma(1) \\ \sigma(2) \\ \vdots \\ \sigma(N) \end{array} \right )$$ 
+
+At each step $i$, we want to randomly generate a candidate
+permutation $\zeta$, close to $\sigma_i$.
+An idea for that is to randomly chose a pair of coordinates 
+in the $\sigma_i$ vector and permute them. This randomly
+generates a new permutation $\zeta$ close to $\sigma_i$.
+Regarding the temperature function $T_t$, we can choose, as a first guess, 
+the example from section $5.2.3$, namely $T_t = \frac{1}{log(t)}$. \\ \\
+We then run the algorithm on our toy example generated in Figure 1, with $100000$ simulations.
+\begin{center}   
+    \begin{multicols}{2}
+        \captionof{figure}{Route after 100 000 iterations}
+        \includegraphics[scale=0.5]{end_route} \vspace{0.5cm}
+        \captionof{figure}{Shortest route amongst all (d=4.9)}
+        \includegraphics[scale=0.5]{min_route}
+    \end{multicols}
+\end{center}
+The first thing to note is that the last route isn't the shortest route amongst
+the simulations. Figure 5, which plots each simulation's distances, gives an 
+idea of the convergence of the algorithm. In our case, the total distance
+of the route is quickly reduced, but the convergence seems to be pretty poor. 
+
+\begin{center}
+    \captionof{figure}{Total distance for each route generated by the algorithm}
+    \includegraphics[scale=0.7]{convergence.png}
+\end{center}
+
+As this might be due to the temperature function, we chose to explore other 
+temperature functions. We first tried functions of the form $T_t = \frac{1}{\log(t^a)}, a \in \N$.
+Although $a$ acts just as a regularization constant 
+(since $\frac{1}{\log(t^a)} = \frac{1}{a\log(t)}$), the parameter changes the appearance
+of the convergence plot. We tested value from $1$ to $100$ for $a$, and averaged the results of 
+20 runs of the algorithm per $a$ value. The algorithm ran $1000$ Simulated-Annealing
+iterations per simulation. The value giving the shortest route in 
+average was $a=86$, and the shortest distance was $d=6.22$ (Figure 7) amongst 
+20 runs for this $a$ value, thus a worse result than before. However, the convergence for 
+$a=86$ (Figure 6) was clearer. 
+
+
+\begin{center}
+    \begin{multicols}{2}
+        \captionof{figure}{Convergence for $a=86$}
+        \includegraphics[scale=0.5]{convergence2} \vspace{0.5cm}
+        \captionof{figure}{Best route for all 20 runs in $a=86$}
+        \includegraphics[scale=0.5]{shortest_route}
+    \end{multicols}
+\end{center}
+
+We gave another try to another form of temperature function : 
+$T_t = \frac{1}{t^2}$. Running $100000$ simulations gives the following convergence
+scheme (Figure 8), which is satisfying. The shortest route has a total 
+distance of $5.33$ (Figure 9), which is near the results of the first temperature function 
+$T_t = \frac{1}{\log(t)}$. The $T_t = \frac{1}{t^2}$ temperature function has thus the advantage 
+of giving good results, while showing less variability than the previous functions.
+
+
+\begin{center}
+    \begin{multicols}{2}
+        \captionof{figure}{Convergence scheme}
+        \includegraphics[scale=0.5]{convergence3} \vspace{0.5cm}
+        \captionof{figure}{Shortest route (d=5.33)}
+        \includegraphics[scale=0.5]{shortest_route2}
+    \end{multicols}
+\end{center}
+
+\section*{Exercise 10.10 Multi-stage Gibbs Sampler on Clinical Mastisis Data}
+
+\subsection*{Overview of the problem}
+
+Let $X_i, i=1, ..., m$ be the number of cases of mastisis (an inflammation 
+caused by infection) in herd $i$. Assuming that the occurrence or not of a
+ mastisis for a single animal is a Bernouilli random variable, a model for
+  the herd could be:   $X_i \sim \mathcal{P}(\lambda_i)$,
+where $\lambda_i$ is the infection rate. The main problem here is the
+ independence which could lead to larger parameter estimates variances. 
+ Schukken et al. 1991 use thus a hierarchical model :
+
+\begin{align*}
+    X_i &\sim \mathcal{P}(\lambda_i) \\
+\lambda_i &\sim \mathcal{G}a(\alpha, \beta_i)  \\
+\beta_i  &\sim \mathcal{G}a(a, b) \\
+\end{align*}
+
+\noindent The objective is to estimate $\lambda_i$ by simulation,
+ using the Gibbs sampler.
+
+\subsection*{Gibbs Sampler}
+
+In the Multi-stage Gibbs Sampler context, we want to simulate
+ $X = (X_1, ..., X_p)$ and we suppose that we are able to simulate
+  from univariate conditionnal densities $f_1, ..., f_p$, so that :
+$$X_i | x_1, x_2, ..., x_{i-1},x_{i+1}, ...,x_p \sim f_i(x_i | x_1, x_2, ..., x_{i-1},x_{i+1}, ...,x_p )$$
+The Gibbs Sampler simulates $x^{t+1}$ from $x^{t}$ by doing the
+ following updates at time $t$ : 
+
+Generate : 
+\begin{itemize}
+    \item $X_1^{t+1} \sim f_1(x_1 | x_2^t, ..., x_p^t) $
+    \item $X_2^{t+1} \sim f_2(x_2 | x_1^{t+1},x_3^t ..., x_p^t) $
+    \item ...
+    \item $X_p^{t+1} \sim f_p(x_p | x_1^{t+1}, ..., x_{p-1}^{t+1}) $
+\end{itemize}
+
+In our case, $\lambda_i, \beta_i$ are to be simulated. Let's first compute their posterior densities. 
+
+\subsection*{(a) Posterior densities computation}
+
+We know that $\lambda_i \sim \mathcal{G}a(\alpha, \beta_i) $. Thus, 
+$$\pi(\lambda_i = \lambda | \alpha, \beta_i) = \lambda^{\alpha-1}\frac{\beta_i^{\alpha}e^{-\beta_i \lambda}}{\Gamma(\alpha)}, \forall \lambda \in \mathbb{R}^+$$
+Additionally : $f(x_i|\lambda_i = \lambda, \alpha, \beta_i) = \frac{\lambda^{x_i}}{x_i!}e^{-\lambda}$. 
+Then, from Bayes Theorem :
+$$\pi(\lambda_i = \lambda | x , \alpha, \beta_i) = 
+\frac{
+    f(x_i| \lambda_i = \lambda, \alpha, \beta_i)
+     \pi(\lambda_i=\lambda | \alpha, \beta_i)}
+{\underset{A}{\underbrace{
+    \int_0^{\infty}
+    f(x_i|  \lambda_i = s, \alpha, \beta_i)
+    \pi(\lambda_i = s| \alpha, \beta_i) 
+ds}}}$$.
+Let's first compute the integral $A$. 
+\begin{align*}
+    A &= \int_0^{\infty}
+            \frac{
+                s^{x_i+\alpha-1} \times e^{-(\beta_i+1)s} \times \beta_i^{\alpha}
+            }
+            {x_i! \times \Gamma(\alpha)}
+            ds \\
+      &= \frac{\beta_i^{\alpha}}{ x_i! \times \Gamma(\alpha) }
+         \int_0^{\infty}
+            s^{x_i+\alpha-1} \times e^{-(\beta_i+1)s}  ds \\
+     &= \frac{\beta_i^{\alpha}}{ x_i! \times \Gamma(\alpha) \times \beta_i^{x_i+\alpha}}
+        \int_0^{\infty} u^{x_i+\alpha-1} e^{-u} du \ \ \ \ \ \ \ \ \ \ \ \leftarrow u:= (\beta_i+1)s \\
+    &=  \frac{\beta_i^{\alpha}}{ x_i! \times \Gamma(\alpha) \times \beta_i^{x_i+\alpha}}
+        \times \Gamma(x_i+\alpha) \\
+\end{align*}
+
+\noindent Then, 
+
+\begin{align*}
+    \pi(\lambda_i = \lambda | x , \alpha, \beta_i) &=
+    \frac{ x_i! \times \Gamma(\alpha) \times \beta_i^{x_i+\alpha}}
+    {\beta_i^{\alpha}\times \Gamma(x_i+\alpha)}
+    \lambda^{\alpha-1}\frac{\beta_i^{\alpha}e^{-\beta_i \lambda}}{\Gamma(\alpha)}
+     \frac{\lambda^{x_i}}{x_i!}e^{-\lambda}\\
+     &= \frac{\lambda^{x_i+\alpha-1} (\beta_i+1)^{x_i+\alpha} e^{-(\beta_i+1)\lambda}}
+     {\Gamma(x_i+\alpha)}
+\end{align*}
+Which is the density of a $\mathcal{G}a(x_i+\alpha, \beta_i+1)$.
+
+\noindent Now, show that $\pi(\beta_i|x, \alpha, a, b, \lambda_i) =
+ \mathcal{G}a(\alpha + a, \lambda_i + b)$. Denote, for clarity:  \[f(\beta) = 
+ \pi(x_i | \lambda_i, \beta_i= \beta, \alpha, a, b )
+        \pi(\lambda_i|\beta_i=\beta, \alpha, a, b)
+        \pi(\beta_i = \beta| a, b), \forall \beta \in \R^+\]
+         From Bayes Theorem, for any $\beta \in \R^+$,  
+ \begin{align*}
+    \pi(\beta_i = \beta | x, \alpha, a, b, \lambda_i) &=
+        \frac{f(\beta)}
+        {\int_0^\infty f(s)ds}  
+ \end{align*}
+ Using the respective laws of $X_i, \lambda_i, \beta_i$ : 
+ \begin{align*}
+     f(\beta) &= \frac{\lambda_i^{x_i}}{x_i!} 
+                  e^{-\lambda_i}
+                  \lambda_i^{\alpha-1} 
+                  \frac{\beta^\alpha e^{-\beta\lambda_i} }{\Gamma(\alpha)}
+                  \beta^{a-1} 
+                  \frac{b^a e^{-b\beta}}{\Gamma(a)} \\
+             &= \underset{C}{\underbrace{\frac{\lambda_i^{x_i+\alpha-1}e^{-\lambda_i}b^a   }
+             {x_i! \Gamma(\alpha) \Gamma(a)} } }
+             \beta^{\alpha+a-1}
+              e^{-\beta(\lambda_i+b)}
+ \end{align*}
+ With $C$ a constant regarding $\beta$. Thus, the integral value can be calculated as follows :
+ \begin{align*}
+    \int_0^\infty f(s)ds &= \int_0^\infty C 
+                            s^{\alpha+a-1}
+                            e^{-s(\lambda_i+b)} ds  \\
+                        &= C \int_0^\infty \frac{1}{(\lambda_i+b)^{\alpha+a} }
+                            t^{(\alpha+a)-1}e^{-t} dt \ \ \ \ \ \leftarrow t = s(\lambda_i+b) \\
+                        &= \frac{C}{(\lambda_i+b)^{\alpha+a} } \Gamma(\alpha +a)
+ \end{align*}
+ Thus, 
+ \begin{align*}
+     \pi(\beta_i = \beta | x, \alpha, a, b, \lambda_i) &= 
+       \frac{
+            C \beta^{\alpha+a-1}
+            e^{-\beta(\lambda_i+b)}
+            (\lambda_i+b)^{\alpha+a} 
+       }
+       {C \Gamma(\alpha+a)} \\
+    &=  \beta^{\alpha+a-1}
+    \frac{
+        (\lambda_i+b)^{\alpha+a} 
+        e^{-\beta(\lambda_i+b)}
+   }
+   { \Gamma(\alpha+a)}
+ \end{align*}
+Which is the density of a $\mathcal{G}a(\alpha+a, \lambda_i+b)$. 
+
+\subsection*{(b) Gibbs sampler implementation}
+
+We implemented \footnote{Code available \href{https://github.com/sally14/ComputationalStats/blob/master/TD3/gibbs_mastitis.ipynb}{here}} 
+
+\end{document}

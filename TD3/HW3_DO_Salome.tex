@@ -461,36 +461,36 @@ This settings seems to indicate that $\alpha, a$ are important parameters,
 and that the Gibbs-sampler setting gives a strong importance to $\beta_i$ parameters
 for $\lambda_i$, and vice-versa.
 
-\section*{Exercise 9.4 Gibbs-Sampler - Metropolis Hastings relation}
-In this exercise, we consider that we have a bivariate Gibbs Sampler, with 
-$X \sim f(x|y), Y\sim f(y|x)$. 
+% \section*{Exercise 9.4 Gibbs-Sampler - Metropolis Hastings relation}
+% In this exercise, we consider that we have a bivariate Gibbs Sampler, with 
+% $X \sim f(x|y), Y\sim f(y|x)$. 
 
-\subsection*{(a) Kernel}
-We want to show that $K(x, x') = g(x|x') = \int f(x'|y) f(y|x) dy$.
-As the two-stages Gibbs Sampler consists of simulating, at each time step $t$, 
-$X \sim f_{Y|X}(\dot|x_{t-1}, Y \sim f_{X|Y}(\dot|y_{t}$, the sequences
-$(X_t, Y_t), (X_t), (Y_t)$ are markov chains.
-Moreover, in the Metropolis-Hastings setup, we draw $x' \sim K(x, x') = g(x|x')$
-with $K(x, x')$ the transition kernel of $(X_t)$. Thus, using the law of total probability,
-for $x, x'$ : 
-\begin{align*}
-    K(x, x') &= f(x'|x) \\
-            &= \frac{f(x, x')}{f(x)} \\
-            &= \int \frac{f(x, x'|y)f(y)}{f(x)} dy\\
-            &= \int f(x'|y)\frac{f(x|y)f(y)}{f(x)} dy \\
-            &= \int f(x'|y) f(y|x) dy \\
-\end{align*}
-\subsection*{(b) $\rho$}
+% \subsection*{(a) Kernel}
+% We want to show that $K(x, x') = g(x|x') = \int f(x'|y) f(y|x) dy$.
+% As the two-stages Gibbs Sampler consists of simulating, at each time step $t$, 
+% $X \sim f_{Y|X}(\dot|x_{t-1}, Y \sim f_{X|Y}(\dot|y_{t}$, the sequences
+% $(X_t, Y_t), (X_t), (Y_t)$ are markov chains.
+% Moreover, in the Metropolis-Hastings setup, we draw $x' \sim K(x, x') = g(x|x')$
+% with $K(x, x')$ the transition kernel of $(X_t)$. Thus, using the law of total probability,
+% for $x, x'$ : 
+% \begin{align*}
+%     K(x, x') &= f(x'|x) \\
+%             &= \frac{f(x, x')}{f(x)} \\
+%             &= \int \frac{f(x, x'|y)f(y)}{f(x)} dy\\
+%             &= \int f(x'|y)\frac{f(x|y)f(y)}{f(x)} dy \\
+%             &= \int f(x'|y) f(y|x) dy \\
+% \end{align*}
+% \subsection*{(b) $\rho$}
 
-The Metropolis Hastings algorithm generates $X^{(t+1)} \sim g(x^{t+1}|x^t)$, and accepts 
-$X=x^{t+1}$ with probability $\rho = \min(\frac{f(x^{t+1})/g(x^{t+1}|x^t)}
-{f(x^{t})/g(x^{t}|x^{t+1})}, 1)$, and keep $X = x^t$ with probability $1-\rho$. 
-The stationnary distribution $f(.) $ is also the marginal of $X$, as: 
-\begin{align*}
-    \int f(x)g(x'|x) dx &= \int f(x)\int  f(x'|y) f(y|x) dy  dx \ \ \text{ (using question (a))}\\
-    &= \int f(y) f(x'|y) dy \\
-    &= f(x')
-\end{align*}
+% The Metropolis Hastings algorithm generates $X^{(t+1)} \sim g(x^{t+1}|x^t)$, and accepts 
+% $X=x^{t+1}$ with probability $\rho = \min(\frac{f(x^{t+1})/g(x^{t+1}|x^t)}
+% {f(x^{t})/g(x^{t}|x^{t+1})}, 1)$, and keep $X = x^t$ with probability $1-\rho$. 
+% The stationnary distribution $f(.) $ is also the marginal of $X$, as: 
+% \begin{align*}
+%     \int f(x)g(x'|x) dx &= \int f(x)\int  f(x'|y) f(y|x) dy  dx \ \ \text{ (using question (a))}\\
+%     &= \int f(y) f(x'|y) dy \\
+%     &= f(x')
+% \end{align*}
 % \subsection*{(c) Acceptation of the Metropolis Hastings proposal}
 % We first want to show that $f(x') / g(x'|x) = f(x)/g(x| x')$, i.e.  
 % $f(x') g(x| x')= \int f(y)f(x'|y) dy$.
